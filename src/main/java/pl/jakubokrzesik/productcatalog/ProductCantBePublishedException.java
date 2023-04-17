@@ -1,4 +1,4 @@
 package pl.jakubokrzesik.productcatalog;
 
-public class ProductCantBePublishedException extends Throwable {
+public class ProductCantBePublishedException extends IllegalStateException {
 }

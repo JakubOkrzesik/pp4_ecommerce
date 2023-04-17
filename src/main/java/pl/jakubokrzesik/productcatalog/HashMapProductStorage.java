@@ -1,25 +1,27 @@
 package pl.jakubokrzesik.productcatalog;
 
-import java.util.Collections;
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class HashMapProductStorage implements ProductStorage {
     private Map<String, Product> products;
-
     public HashMapProductStorage(){
-
         this.products = new HashMap<>();
     }
 
     @Override
     public List<Product> allProducts(){
         return products.values()
-                .stream
-                .collect(Collections.toList());
+                .stream()
+                .collect(Collectors.toList());
     }
 
     @Override
-    public String addProduct(String name, String desc) {
+    public String addProduct(String name, String desc, String image, Boolean isPublished, BigDecimal price, String color, int x, int y) {
         Product newOne = new Product (
                 UUID.randomUUID(),
                 name,
@@ -31,9 +33,26 @@ public class HashMapProductStorage implements ProductStorage {
                 x,
                 y
         );
-        this.products.add(newOne);
+        this.products.put(newOne.getId(), newOne);
         return newOne.getId();
     }
+    
+    @Override
+    public void changePriceById(BigDecimal price, String id){
+        loadById(id).setPrice(price);
+    }
+    @Override
+    public void changeImageById(String image, String id){
+        loadById(id).setImage(image);
+    }
+    @Override
+    public void changeVisibilityById(Boolean isPublished, String id){
+        loadById(id).setIsPublished(isPublished);
+    }
 
+    @Override
+    public Product loadById(String productId) {
+        return products.get(productId);
+    }
 
 }

@@ -31,13 +31,6 @@ public class CreditCardTest {
             assertTrue(true);
         }
 
-        assertThrows(CreditLimitBelowThresholdException.class,
-                () -> card.assignCredit(BigDecimal.valueOf(99)));
-        assertThrows(CreditLimitBelowThresholdException.class,
-                () -> card.assignCredit(BigDecimal.valueOf(99)));
-        assertDoesNotThrow(
-                () -> card.assignCredit(BigDecimal.valueOf(100))
-        );
     }
     @Test
     void checkDoublesAndFloats(){
@@ -49,4 +42,48 @@ public class CreditCardTest {
         float y2 = 0.03f;
         float yresult = y2 - y1;
     }
+
+    @Test
+    void reassignLimitTest(){
+        CreditCard card = new CreditCard("1234-5678");
+        card.assignCredit(BigDecimal.valueOf(1000));
+
+        assertThrows(
+                CreditAssignedTwiceException.class,
+                () -> card.assignCredit(BigDecimal.valueOf(1100))
+        );
+    }
+
+    @Test
+    void testToWithdrawOverLimit(){
+        CreditCard card = new CreditCard("1234-5678");
+        card.assignCredit(BigDecimal.valueOf(1000));
+        assertThrows(
+                CantWithdrawOverLimit.class,
+                () -> card.withdrawCredit(BigDecimal.valueOf(1100))
+        );
+    }
+    @Test
+    void testToWithdrawOverBalance(){
+        CreditCard card = new CreditCard("1234-5678");
+        card.assignCredit(BigDecimal.valueOf(1000));
+        card.withdrawCredit(BigDecimal.valueOf(900));
+        assertThrows(
+                CantWithdrawOverBalance.class,
+                () -> card.withdrawCredit(BigDecimal.valueOf(200))
+        );
+    }
+    @Test
+    void cantWithdrawMoreThanTenTimes(){
+        CreditCard card = new CreditCard("1234-5678");
+        card.assignCredit(BigDecimal.valueOf(1000));
+        for(int i=0;i<10;i++){
+            card.withdrawCredit(BigDecimal.valueOf(1));
+        }
+        assertThrows(
+                WithdrawLimitReached.class, ()-> card.withdrawCredit(BigDecimal.valueOf(1))
+        );
+    }
+
+
 }

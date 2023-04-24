@@ -1,34 +1,64 @@
 package pl.jakubokrzesik.productcatalog;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
 public class ProductCatalog {
-    HashMapProductStorage productStorage;
+    // Business
+    // Technical
+    private ProductStorage productStorage;
 
-    public ProductCatalog(HashMapProductStorage productStorage) {
-        this.products = productStorage;
+    public ProductCatalog(ProductStorage productStorage) {
+        this.productStorage = productStorage;
     }
 
-    public void changePrice(String productId, BigDecimal newPrice){
-        Product loaded = this.loadById(productId);
-        loaded.changePrice(newPrice);
+    public List<Product> allProducts() {
+        return productStorage.allProducts();
     }
 
-    public void assignImage
+    public String addProduct(String name, String desc) {
+        Product newOne =  new Product(
+                UUID.randomUUID(),
+                name,
+                desc
+        );
 
-    public void publish(String productId){
-        Product loaded = this.loadById(productId);
+        productStorage.add(newOne);
 
-        if (loaded.getPrice()==null){
+        return newOne.getId();
+    }
+
+    public Product loadById(String productId) {
+        return productStorage.loadById(productId);
+    }
+
+    public void changePrice(String productId, BigDecimal newPrice) {
+        Product product = loadById(productId);
+
+        product.changePrice(newPrice);
+    }
+
+    public void assignImage(String productId, String imageKey) {
+        Product product = loadById(productId);
+
+        product.setImage(imageKey);
+    }
+
+    public void publishProduct(String productId) {
+        Product product = loadById(productId);
+
+        if (product.getImage() == null) {
             throw new ProductCantBePublishedException();
         }
-        if (loaded.getImageKey()==null){
+
+        if (product.getPrice() == null) {
             throw new ProductCantBePublishedException();
         }
 
-        loaded.setOnline();
+        product.setOnline(true);
+    }
+
+    public List<Product> allPublishedProducts() {
+        return productStorage.allPublishedProducts();
     }
 }

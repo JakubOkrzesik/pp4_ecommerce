@@ -1,68 +1,57 @@
 package pl.jakubokrzesik.productcatalog;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class Product {
     private final String uuid;
     private final String name;
     private final String desc;
-    private String image;
-    private Boolean isPublished;
     private BigDecimal price;
-    private final String color;
-    private final int x;
-    private final int y;
+    private String image;
+    private boolean online;
 
-    public Product(UUID uuid, String name, String desc, String image, Boolean isPublished, BigDecimal price, String color, int x, int y) {
+    public Product(UUID uuid, String name, String desc) {
         this.uuid = uuid.toString();
         this.name = name;
         this.desc = desc;
-        this.image = image;
-        this.isPublished = isPublished;
-        this.price = price;
-        this.color = color;
-        this.x = x;
-        this.y = y;
     }
 
     public String getId() {
-        return this.uuid;
+        return uuid;
     }
 
     public UUID getUUID() {
-        return UUID.fromString(this.uuid);
+        return UUID.fromString(uuid);
     }
 
-    public void setPrice(BigDecimal price){
-        this.price = price;
+    public String getName() {
+        return name;
     }
 
-    public void setImage(String image){
-        this.image = image;
+    public void changePrice(BigDecimal newPrice) {
+        price = newPrice;
     }
 
-    public void setIsPublished(Boolean isPublished){
-        if (this.image == null || this.price == null){
-            throw new ProductCantBePublishedException();
-        }
-        this.isPublished = isPublished;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public Map<String,Object> getProductInfo(){
-        Map<String, Object> productInfo = new HashMap<>();
-        productInfo.put("uuid", this.uuid);
-        productInfo.put("name", this.name);
-        productInfo.put("desc", this.desc);
-        productInfo.put("image", this.image);
-        productInfo.put("isPublished", this.isPublished);
-        productInfo.put("price", this.price);
-        productInfo.put("color", this.color);
-        productInfo.put("x", this.x);
-        productInfo.put("y", this.y);
+    public String getImage() {
+        return image;
+    }
 
-        return productInfo;
+    public void setImage(String imageKey) {
+
+        image = imageKey;
+    }
+
+    public void setOnline(boolean online) {
+
+        this.online = online;
+    }
+
+    public boolean getOnline() {
+        return online;
     }
 }

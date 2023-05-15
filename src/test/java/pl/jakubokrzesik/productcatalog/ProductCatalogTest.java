@@ -104,6 +104,27 @@ public class ProductCatalogTest {
                 new HashMapProductStorage()
         );
     }
+
+    @Test
+    void itAllowsToPublishProducts() {
+        ProductCatalog catalog = thereIsProductCatalog();
+        String productId = catalog.addProduct("lego set 8083", "nice one");
+        catalog.changePrice(productId, BigDecimal.valueOf(10));
+        catalog.assignImage(productId, "nice.jpeg");
+
+        catalog.publishProduct(productId);
+
+        String productId2 = catalog.addProduct("lego set 8083", "nice one");
+        catalog.changePrice(productId2, BigDecimal.valueOf(10));
+        catalog.assignImage(productId2, "nice.jpeg");
+
+        catalog.publishProduct(productId2);
+
+        List<Product> publishedProducts = catalog.allPublishedProducts();
+        assertDoesNotThrow(() -> catalog.publishProduct(productId));
+        assertEquals(2, publishedProducts.size());
+    }
+
     @Test
     private void assertListIsEmpty(List<Product> products) {
         assert 0 == products.size();

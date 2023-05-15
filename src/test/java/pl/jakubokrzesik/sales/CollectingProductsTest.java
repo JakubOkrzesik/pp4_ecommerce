@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 public class CollectingProductsTest {
     CartStorage cartStorage;
-    ProductDetailsProvider productDetailsProvider
+    ProductDetailsProvider productDetailsProvider;
 
     @Test
     void itAllowsToAddProductToCart(){

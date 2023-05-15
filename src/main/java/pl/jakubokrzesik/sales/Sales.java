@@ -13,18 +13,17 @@ public class Sales {
 
 
     public void addToCart(String productId, String customerId){
-        Cart cart = loadForCustomer(customerId)
+        Cart customerCart = loadForCustomer(customerId)
                 .orElse(Cart.empty());
 
-        Product product = loadDetailsForProduct(productId)
+        ProductDetails product = loadDetailsForProduct(productId)
                 .orElseThrow(() -> new NoSuchProductException());
 
-        cart.add(product);
-        cartStorage.save(customerId,cart);
+        customerCart.add(product);
     }
 
-    private Product loadDetailsForProduct(String productId) {
-        return ProductDetailsProvider
+    private ProductDetails loadDetailsForProduct(String productId) {
+        return productDetailsProvider.getProduct(productId);
     }
 
     private Optional<Cart> loadForCustomer(String customerId){

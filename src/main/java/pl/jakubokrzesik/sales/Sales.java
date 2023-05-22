@@ -16,8 +16,7 @@ public class Sales {
         Cart customerCart = loadForCustomer(customerId)
                 .orElse(Cart.empty());
 
-        ProductDetails product = loadDetailsForProduct(productId)
-                .orElseThrow(() -> new NoSuchProductException());
+        ProductDetails product = loadDetailsForProduct(productId);
 
         customerCart.add(product);
     }

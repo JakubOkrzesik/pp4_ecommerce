@@ -28,4 +28,9 @@ public class Main {
         productCatalog.publishProduct(product2);
         return productCatalog;
     }
+
+    @Bean
+    Sales sales(){
+        
+    }
 }

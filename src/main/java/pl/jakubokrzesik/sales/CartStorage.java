@@ -4,15 +4,17 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class CartStorage {
-    static HashMap<String, Optional<Cart>> storage = new HashMap<String, Optional<Cart>>();
+    HashMap<String, Cart> customerCart;
 
-    public static Optional<Cart> load(String customerId) {
-        Optional<Cart> cart = storage.get(customerId);
-        
-        return cart;
+    public CartStorage() {
+        this.customerCart = new HashMap<>();
     }
 
-    public void save(String customerId, Optional<Cart> cart) {
-        storage.put(customerId, cart);
+    public Optional<Cart> load(String customerId) {
+        return Optional.ofNullable(customerCart.get(customerId));
+    }
+
+    public void save(String customerId, Cart cart) {
+        customerCart.put(customerId, cart);
     }
 }

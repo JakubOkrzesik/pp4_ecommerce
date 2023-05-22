@@ -1,13 +1,14 @@
 package pl.jakubokrzesik.sales;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Cart {
     
-    private ArrayList<ProductDetails> cart;
+    private HashMap<ProductDetails, AtomicInteger> cart;
 
     public Cart(){
-        this.cart = new ArrayList<ProductDetails>();
+        this.cart = new HashMap<ProductDetails, AtomicInteger>();
     }
 
     public static Cart empty() {
@@ -15,11 +16,17 @@ public class Cart {
     }
 
     public void add(ProductDetails product) {
-        cart.add(product);
+        for(ProductDetails key: cart.keySet()){
+            if(key==product){
+                cart.get(key).incrementAndGet();
+            }
+        }
+        cart.put(product, new AtomicInteger(1));
+    }
+    
+    public void delete(ProductDetails product){
+        cart.remove(product);
     }
 
-    public void delete(int num){
-        cart.remove(num);
-    }
-
+    
 }

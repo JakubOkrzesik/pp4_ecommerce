@@ -22,6 +22,7 @@ const createHtmlComponent = (product) => {
             </button>
         </li>
     `;
+    return createHtmlFromString(template);
 }
 
 const createHtmlFromString = (htmlAsString) => {
@@ -45,14 +46,15 @@ const getCurrentOffer = () => {
         .then(response => response.json());
 }
 
-const refreshOffer = async () => {
-    const offer = await getCurrentOffer();
-    const cart = document.querySelector('.cart');
-
-    cart.querySelector('.total').textContent = `$(offer.total) PLN`;
-    cart.querySelector('.total').textContent = `$(offer.total) PLN`;
-
-};
+const refreshCurrentOffer = () => {
+    console.log('i am going to refresh offer');
+    const offerElement = document.querySelector('.cart');
+    getCurrentOffer()
+        .then(offer => {
+            offerElement.querySelector('.total').textContent = `${offer.total} PLN`;
+            offerElement.querySelector('.itemsCount').textContent = `${offer.itemsCount} items`;
+        });
+}
 
 const addToCart = (productId) => {
     return fetch(`/api/add-to-cart/${productId}`)

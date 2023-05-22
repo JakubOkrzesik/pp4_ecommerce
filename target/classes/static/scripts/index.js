@@ -22,6 +22,7 @@ const createHtmlComponent = (product) => {
             </button>
         </li>
     `;
+    return createHtmlFromString(template);
 }
 
 const createHtmlFromString = (htmlAsString) => {
@@ -39,3 +40,42 @@ const createHtmlFromString = (htmlAsString) => {
                 .forEach(el => productsListElement.appendChild(el))
         });
 })()
+
+const getCurrentOffer = () => {
+    return fetch("/api/offer")
+        .then(response => response.json());
+}
+
+const refreshCurrentOffer = () => {
+    console.log('i am going to refresh offer');
+    const offerElement = document.querySelector('.cart');
+    getCurrentOffer()
+        .then(offer => {
+            offerElement.querySelector('.total').textContent = `${offer.total} PLN`;
+            offerElement.querySelector('.itemsCount').textContent = `${offer.itemsCount} items`;
+        });
+}
+
+const addToCart = (productId) => {
+    return fetch(`/api/add-to-cart/${productId}`)
+}
+
+const initializeAddToCartHandler = (el) => {
+    const btn = el.querySelector('button.product__add-to-cart');
+    btn.addEventListener('click', () => {
+        addToCart(btn.getAttribute('data-product-id'))
+            .then(refreshOffer())
+    });
+    return el;
+}
+(async () => {
+    console.log("It works :)");
+    const productsList = document.querySelector('#productsList');
+    refreshCurrentOffer();
+    const products = await getProducts();
+    products
+        .map(p => createProductComponent(p))
+        .map(el => initializeAddToCartHandler(el))
+        .forEach(el => productsList.appendChild(el));
+    console.log("post get products");
+})();

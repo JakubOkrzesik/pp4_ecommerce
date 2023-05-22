@@ -6,26 +6,35 @@ public class Sales {
     private CartStorage cartStorage;
     private ProductDetailsProvider productDetailsProvider;
 
-    public Sales(CartStorage cartStorage, ProductDetailsProvider productDetailsProvider){
+    public Sales(CartStorage cartStorage, ProductDetailsProvider productDetailsProvider) {
         this.cartStorage = cartStorage;
         this.productDetailsProvider = productDetailsProvider;
     }
 
-
-    public void addToCart(String productId, String customerId){
-        Cart customerCart = loadForCustomer(customerId)
+    public void addToCart(String customerId, String productId) {
+        Cart cart = loadForCustomer(customerId)
                 .orElse(Cart.empty());
 
-        ProductDetails product = loadDetailsForProduct(productId);
+        ProductDetails product = loadDetailsForProduct(productId)
+                .orElseThrow(() -> new NoSuchProductException());
 
-        customerCart.add(product);
+        cart.add(product);
+        cartStorage.save(customerId, cart);
+
     }
 
-    private ProductDetails loadDetailsForProduct(String productId) {
-        return productDetailsProvider.getProduct(productId);
+    private Optional<ProductDetails> loadDetailsForProduct(String productId){
+        return Optional.ofNullable(productDetailsProvider.getProduct(productId));
     }
 
-    private Optional<Cart> loadForCustomer(String customerId){
-        return CartStorage.load(customerId);
+    private Optional<Cart> loadForCustomer(String customerId) {
+        Optional<Cart> loaded = this.cartStorage.load(customerId);
+        return loaded;
     }
+    /* 
+    public Offer getCurrentOffer(String currentCustomer) {
+        return null;
+    }
+    */
+
 }

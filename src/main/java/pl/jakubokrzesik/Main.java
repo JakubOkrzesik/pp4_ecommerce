@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import pl.jakubokrzesik.productcatalog.HashMapProductStorage;
 import pl.jakubokrzesik.productcatalog.ProductCatalog;
+import pl.jakubokrzesik.sales.CartStorage;
+import pl.jakubokrzesik.sales.ProductDetailsProvider;
+import pl.jakubokrzesik.sales.Sales;
 
 import java.math.BigDecimal;
 
@@ -30,7 +33,7 @@ public class Main {
     }
 
     @Bean
-    Sales sales(){
-        
+    Sales Createsales(){
+        return new Sales(new CartStorage(), new ProductDetailsProvider());
     }
 }

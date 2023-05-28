@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.List;
+
 @RestController
 public class SalesController {
 
@@ -24,6 +27,11 @@ public class SalesController {
     @PostMapping("/api/add-to-cart/{productId}")
     public void addToCart(@PathVariable String productId){
         sales.addToCart(getCurrentCustomer(), productId);
+    }
+
+    @PostMapping("/api/get_current_products")
+    public HashMap<String, ProductDetails> getProducts(){
+        return sales.getProductDetailsProvider().getDetailsProvider();
     }
 
     private String getCurrentCustomer() {

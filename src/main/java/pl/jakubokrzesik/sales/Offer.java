@@ -14,8 +14,6 @@ public class Offer {
         return itemsCount;
     }
 
-
-
     public Offer() {
         this.total = BigDecimal.ZERO;
         this.itemsCount = 0;

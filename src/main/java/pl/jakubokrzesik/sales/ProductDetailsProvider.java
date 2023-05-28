@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class ProductDetailsProvider {
 
-    public HashMap<String, ProductDetails> detailsProvider;
+    public HashMap<String, ProductDetails> detailsProvider = new HashMap<>();
 
     public ProductDetailsProvider(ProductDetails... product){
         for(ProductDetails pr:product){
@@ -19,7 +19,5 @@ public class ProductDetailsProvider {
     public HashMap<String, ProductDetails> getDetailsProvider() {
         return detailsProvider;
     }
-    
-    
-    
+
 }

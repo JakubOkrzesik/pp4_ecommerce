@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import pl.jakubokrzesik.productcatalog.HashMapProductStorage;
 import pl.jakubokrzesik.productcatalog.ProductCatalog;
 import pl.jakubokrzesik.sales.CartStorage;
+import pl.jakubokrzesik.sales.ProductDetails;
 import pl.jakubokrzesik.sales.ProductDetailsProvider;
 import pl.jakubokrzesik.sales.Sales;
 
@@ -34,6 +35,6 @@ public class Main {
 
     @Bean
     Sales Createsales(){
-        return new Sales(new CartStorage(), new ProductDetailsProvider());
+        return new Sales(new CartStorage(), new ProductDetailsProvider(new ProductDetails("Harry Potter", 35.78),new ProductDetails("Lord of the Rings", 45.00)));
     }
 }

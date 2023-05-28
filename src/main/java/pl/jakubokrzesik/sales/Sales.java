@@ -1,5 +1,6 @@
 package pl.jakubokrzesik.sales;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 public class Sales {
@@ -35,5 +36,7 @@ public class Sales {
         return new Offer();
     }
 
-
+    public ProductDetailsProvider getProductDetailsProvider(){
+        return this.productDetailsProvider;
+    }
 }

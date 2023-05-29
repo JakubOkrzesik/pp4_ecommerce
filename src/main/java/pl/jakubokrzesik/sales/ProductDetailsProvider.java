@@ -1,22 +1,20 @@
 package pl.jakubokrzesik.sales;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class ProductDetailsProvider {
 
-    public HashMap<String, ProductDetails> detailsProvider = new HashMap<>();
+    public ArrayList<ProductDetails> detailsProvider = new ArrayList<ProductDetails>();
 
-    public ProductDetailsProvider(ProductDetails... product){
-        for(ProductDetails pr:product){
-            String size = Integer.toString(this.detailsProvider.size() + 1);
-            this.detailsProvider.put(size, pr);
-        }
+    public ProductDetailsProvider(ProductDetails... products){
+        Collections.addAll(this.detailsProvider, products);
     }
 
     public ProductDetails getProduct(String productID){
-        return detailsProvider.get(productID);
+        return this.detailsProvider.get(Integer.parseInt(productID));
     }
 
-    public HashMap<String, ProductDetails> getDetailsProvider() {
+    public ArrayList<ProductDetails> getDetailsProvider() {
         return detailsProvider;
     }
 

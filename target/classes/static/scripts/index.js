@@ -4,6 +4,9 @@ const getProducts = () => {
     return fetch("/api/products")
         .then(response => response.json());
 }
+const getSalesProducts = () =>{
+    return fetch("/api/get_current_products")
+}
 const getCurrentOffer = () => {
     return fetch("/api/offer")
         .then(response => response.json());
@@ -27,7 +30,7 @@ const createHtmlComponent = (product) => {
             <span>${product.price}</span>
             <button
                 class="product__add-to-cart"
-                data-product-id="${product.id}"
+                data-product-id="${product.uuid}"
             >
                 Add to cart +
             </button>

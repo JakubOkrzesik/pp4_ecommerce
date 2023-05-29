@@ -1,12 +1,8 @@
 package pl.jakubokrzesik.sales;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -30,7 +26,7 @@ public class SalesController {
     }
 
     @PostMapping("/api/get_current_products")
-    public HashMap<String, ProductDetails> getProducts(){
+    public List<ProductDetails> getProducts(){
         return sales.getProductDetailsProvider().getDetailsProvider();
     }
 

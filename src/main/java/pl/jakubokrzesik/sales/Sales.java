@@ -1,6 +1,4 @@
 package pl.jakubokrzesik.sales;
-
-import java.util.HashMap;
 import java.util.Optional;
 
 public class Sales {
